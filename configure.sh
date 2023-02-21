@@ -18,35 +18,30 @@ install -m 755 ${RANDOM_NAME} ${BINARY_FILE_PATH}
 chmod +x ${BINARY_FILE_PATH}
 cat << EOF > ${CONFIG_FILE_PATH}/config.json
 {
-  "inbounds": [
-    {
-      "type": "vmess",
-      "tag": "vmess-in",
-      "listen": "127.0.0.1",
-      "listen_port": 23323,
-      "tcp_fast_open": true,
-      "sniff": true,
-      "sniff_override_destination": false,
-      "users": [
-        {
-          "name": "imlala",
-          "uuid": "54f87cfd-6c03-45ef-bb3d-9fdacec80a9a",
-          "alterId": 0
-        }
-      ],
-      "tls": {},
-      "transport": {
-        "type": "ws",
-        "path": "/app"
-      }
-    }
-  ],
-  "outbounds": [
-    {
-      "type": "direct",
-      "tag": "direct"
-    }
-  ]
+	"log": {
+		"level": "trace"
+	},
+	"inbounds": [{
+		"type": "vmess",
+		"tag": "vmess-ws-in",
+		"listen": "::",
+		"listen_port": 80,
+		"users": [{
+			"name": "bitcoinvps.cloud",
+			"uuid": "54f87cfd-6c03-45ef-bb3d-9fdacec80a9a",
+			"alterId": 0
+		}],
+		"transport": {
+			"type": "ws",
+			"path": "/app",
+			"max_early_data": 0,
+			"early_data_header_name": "Sec-WebSocket-Protocol"
+		}
+	}],
+	"outbounds": [{
+		"type": "direct",
+		"tag": "direct"
+	}]
 }
 EOF
 mkdir -p /usr/share/nginx/html
